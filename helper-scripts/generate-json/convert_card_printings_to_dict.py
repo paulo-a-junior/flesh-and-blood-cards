@@ -62,6 +62,9 @@ def convert_card_printings_to_dict(language, card_printing_csv_path, card_face_a
             card_printing['flavor_text'] = row['Flavor Text']
             card_printing['flavor_text_plain'] = unmark(card_printing['flavor_text'])
             card_printing['image_url'] = helper_functions.treat_blank_string_as_none(row['Image URL'])
+            card_printing['lss_db_id'] = helper_functions.get_lss_carddb_id(card_printing)
+            filename = card_printing['lss_db_id'] + '.webp'
+            card_printing['lss_db_id_link'] = 'https://d2wlb52bya4y8z.cloudfront.net/media/cards/large/<filename>'.replace('<filename>', filename)
 
             if tcgplayer_product_id is not None:
                 card_printing['tcgplayer_product_id'] = tcgplayer_product_id

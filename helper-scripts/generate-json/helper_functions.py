@@ -87,3 +87,27 @@ def treat_string_as_boolean(field, default_value=True):
         return True
 
     return bool(treat_blank_string_as_boolean(field, default_value))
+
+def get_lss_carddb_id(printing):
+    foiling_maps = {
+        'R': '-RF',
+        'C': '-CF',
+        'G': '-GF'
+        }
+    foiling_maps_keys = foiling_maps.keys()
+    card_number = printing['id'][3:6]
+    set_code = printing['id'][0:3]
+    if printing['foiling'] in foiling_maps_keys:
+        prefix = ''
+        if printing['edition'] == 'U':
+            prefix = 'U-'
+        set_code = prefix+printing['id'][0:3]
+        extras = foiling_maps[printing['foiling']]
+        if printing['rarity'] == 'V':
+            extras = '-MV'
+        if printing['foiling'] == 'C' and printing['art_variation'] == 'FA':
+            extras = '-MV'
+        return f'{set_code}{card_number}{extras}'
+    else:
+        return f'{set_code}{card_number}'
+
